@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ExplodeEnemy
   player: {fileID: 0}
+  explosionPoint: {fileID: 8151417791303264016}
   detectDistance: 4.2
   explodeDelay: 0.7
   exploderPrefab: {fileID: 2650195784868546283, guid: 6250b041203850c4cb8116bff7904f08, type: 3}

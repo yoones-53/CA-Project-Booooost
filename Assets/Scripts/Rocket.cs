@@ -43,10 +43,9 @@ public class Rocket : MonoBehaviour
 
     void HandleThrust() // 로켓 추진
     {
-        bool isTouchingUI = EventSystem.current != null && EventSystem.current.IsPointerOverGameObject();
 
         bool isThrusting = Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow) ||
-                           Input.GetKey(KeyCode.W)     || (Input.GetMouseButton(0) && !isTouchingUI);
+                           Input.GetKey(KeyCode.W)     || (Input.GetMouseButton(0));
 
         if (isThrusting) // 추진 중일때
         {

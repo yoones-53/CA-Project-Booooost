@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using UnityEngine.Pool;
 public class ShooterEnemy : MonoBehaviour
 {
     public Transform player;
@@ -11,6 +11,12 @@ public class ShooterEnemy : MonoBehaviour
     public float detectRange = 9f; // 플레이어 감지 거리
 
     private float shootTimer = 0f;
+    private IObjectPool<Bullet> _Pool;
+
+    void Awake()
+    {
+        _Pool = new ObjectPool<Bullet>(CreateBullet, OnGetBullet, OnReleaseBullet, OnDestroyBullet, maxSize:10);
+    }
 
     void Start()
     {
@@ -48,9 +54,39 @@ public class ShooterEnemy : MonoBehaviour
 
     void Shoot()
     {
+        Bullet bullet = _Pool.Get();
+
+        bullet.transform.position = firePoint.position;
+        bullet.transform.rotation = firePoint.rotation;
+
+        Vector2 direction = (player.position - firePoint.position).normalized;
+        bullet.SetDirection(direction);
+        /*
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation); // 총알 생성
         Vector2 direction = (player.position - firePoint.position).normalized;
         Bullet bulletScript = bullet.GetComponent<Bullet>(); // Bullet 스크립트에 방향 전달
         bulletScript.SetDirection(direction); // 플레이어 방향
+        */
+    }
+
+    Bullet CreateBullet()
+    {
+        Bullet bullet = Instantiate(bulletPrefab).GetComponent<Bullet>();
+        bullet.SetManagedPool(_Pool);
+        return bullet;
+    }
+
+    void OnGetBullet(Bullet bullet)
+    {
+        bullet.gameObject.SetActive(true);
+    }
+    void OnReleaseBullet(Bullet bullet)
+    {
+        bullet.gameObject.SetActive(false);
+    }
+
+    void OnDestroyBullet(Bullet bullet)
+    {
+        Destroy(bullet.gameObject);
     }
 }

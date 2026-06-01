@@ -473,7 +473,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: a05e52c820622b04b9a5324a8ec305c4, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.8
+  m_Volume: 0.15
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1463,15 +1463,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6939842836337860778, guid: 419024212df88f8409dfe07fd3fb508e, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6939842836337860778, guid: 419024212df88f8409dfe07fd3fb508e, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6939842836337860778, guid: 419024212df88f8409dfe07fd3fb508e, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 6939842836337860778, guid: 419024212df88f8409dfe07fd3fb508e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1912,10 +1912,10 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 519420032}
-  - {fileID: 3349797765817276601}
   - {fileID: 907324557140169330}
   - {fileID: 1937393779}
   - {fileID: 1850970159181303780}
+  - {fileID: 3349797765817276601}
   - {fileID: 1289565224}
   - {fileID: 545980153}
   - {fileID: 1239784161}
