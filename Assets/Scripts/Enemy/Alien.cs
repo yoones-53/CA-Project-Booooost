@@ -5,7 +5,7 @@ public class Alien : MonoBehaviour
     [HideInInspector]
     public Camera targetCamera;
     [SerializeField]
-    float destroyOffset = 100f;
+    float destroyOffset = 30f;
     
 
     void Start()
@@ -17,7 +17,7 @@ public class Alien : MonoBehaviour
     void Update()
     {
         if (transform.position.x < GetCameraLeftX() - destroyOffset)
-            Destroy(gameObject);
+            gameObject.SetActive(false);
     }
     void OnTriggerEnter2D(Collider2D other)
     {

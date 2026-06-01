@@ -143,7 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Alien
   targetCamera: {fileID: 0}
-  destroyOffset: 100
+  destroyOffset: 30
 --- !u!114 &7130444549373787187
 MonoBehaviour:
   m_ObjectHideFlags: 0

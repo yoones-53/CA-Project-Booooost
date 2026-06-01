@@ -5,13 +5,13 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+     // 점수 싱글톤 객체
     public static GameManager Instance { get; private set; }
 
     int highScore = 0;
     int score = 0;
     public int Score => score;
 
-    
     public void RocketScore()
     {
         if (isGameOver) return;
@@ -32,26 +32,15 @@ public class GameManager : MonoBehaviour
         Instance = this;
         highScore = PlayerPrefs.GetInt("HighScore", 0);
     }
-    
     [SerializeField]
     Transform player;
 
-    [Header("Alien")]
     [SerializeField]
-    public GameObject[] alienPrefabs;
-
-    [SerializeField]
-    Vector2 alienSpawnYRange = new Vector2(-6f, 82f);
+    Vector2 alienSpawnYRange = new Vector2(-6f, 304f);
 
     [Header("Panel")]
     public GameObject gameOverPanel;
     public GameObject pausePanel;
-    
-    [SerializeField]
-    Camera targetCamera;
-
-    [SerializeField]
-    Transform alienParent;
 
     [SerializeField]
     TextMeshProUGUI scoreText;
@@ -68,8 +57,11 @@ public class GameManager : MonoBehaviour
     
     [SerializeField]
     int spawnCount = 1;
-    float nextSpawnX = 10f;
-    float nextLevelX = 100f;
+
+
+    // 초깃값들
+    float nextSpawnX = 10f;         // 다음 스폰 초깃값
+    float nextLevelX = 100f;        // 다음 난이도증가 초깃값
     bool isGameOver = false;
     bool isPaused = false;
     
@@ -90,6 +82,7 @@ public class GameManager : MonoBehaviour
         LevelUp();
         SpawnAlien();
         
+        // ESC 게임 일시정지
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             if (isPaused) Resume();
@@ -97,6 +90,59 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    /* 게임오버시 게임오버 패널이 켜지며
+    *  최고 기록보다 기존 기록이 높으면 최고기록 변경
+    */ 
+    public void GameOver()
+    {
+        isGameOver = true;
+        gameOverPanel.SetActive (true);
+
+        // 높은 점수 저장
+        if (score > highScore)
+        {
+            highScore = score;
+            PlayerPrefs.SetInt("HighScore", highScore);
+            PlayerPrefs.Save();
+        }
+        highScoreText.text = $"{highScore}km";
+    }
+
+    /* 플레이어가 nextSpawnX (x축 10)거리 이동하면
+    *  플레이어기준 랜덤 x축(20~30)뒤에서 y축 (0~300)에서
+    *  6가지 적들중 한 마리 랜덤 적 스폰
+    */ 
+    void SpawnAlien()
+    {
+        if (player.position.x < nextSpawnX) return;
+        for (int i = 0; i < spawnCount; i++)
+        {
+            float spawnX = player.position.x + Random.Range(20f, 30f);
+            float spawnY = Random.Range(alienSpawnYRange.x, alienSpawnYRange.y);
+            Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0f);
+            
+            GameObject alien = PoolManager.Instance.GetAlien(Random.Range(0, 6));
+            alien.transform.position = spawnPosition;
+        }   
+        nextSpawnX += unitsPerSpawn;
+    }
+
+    /* x축 100마다 난이도 증가
+    *  x축 10마다 스폰시 적 1마리 더 증가
+    *  최대 스폰 마리수 30으로 제한
+    */ 
+    void LevelUp()
+    {
+        if (player.position.x >= nextLevelX && spawnCount < 30)
+        {
+            spawnCount++;
+            nextLevelX += unitsPerLevel;
+        }
+    }
+
+    /* ESC게임 일시정지 패널 온오프
+    *  일시정지때 게임 시간 정지
+    */ 
     void Resume()
     {
         pausePanel.SetActive(false);
@@ -108,43 +154,6 @@ public class GameManager : MonoBehaviour
         pausePanel.SetActive(true);
         Time.timeScale = 0f;
         isPaused = true;
-    }
-    public void GameOver()
-    {
-        isGameOver = true; // 게임오버
-        gameOverPanel.SetActive (true); // 게임오버 텍스트
-
-        if (score > highScore)
-        {
-            highScore = score;
-            PlayerPrefs.SetInt("HighScore", highScore);
-            PlayerPrefs.Save();
-        }
-
-        highScoreText.text = $"{highScore}km";
-    }
-    void SpawnAlien()
-    {
-        if (player.position.x < nextSpawnX) return;
-        for (int i = 0; i < spawnCount; i++)
-        {
-            float spawnX = player.position.x + Random.Range(20f, 30f);
-            float spawnY = Random.Range(alienSpawnYRange.x, alienSpawnYRange.y);
-            Vector3 spawnPosition = new Vector3(spawnX, spawnY, 0f);
-            
-            int randomIndex = Random.Range(0, alienPrefabs.Length);
-            Instantiate(alienPrefabs[randomIndex], spawnPosition, Quaternion.identity, alienParent);
-        }
-        nextSpawnX += unitsPerSpawn;
-    }
-
-    void LevelUp()
-    {
-        if (player.position.x >= nextLevelX && spawnCount < 30)
-        {
-            spawnCount++;
-            nextLevelX += unitsPerLevel;
-        }
     }
 
     void RestartInput()
