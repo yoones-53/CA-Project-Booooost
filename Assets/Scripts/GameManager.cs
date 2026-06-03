@@ -5,7 +5,12 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
-     // 점수 싱글톤 객체
+    /*
+    * 점수 계산, 최고 점수 저장, 게임 난이도
+    * 적생성, 게임 Pause, UI 활성화를 담당한다
+    */
+
+     // 게임 매니저 싱글톤 객체
     public static GameManager Instance { get; private set; }
 
     int highScore = 0;
@@ -32,23 +37,26 @@ public class GameManager : MonoBehaviour
         Instance = this;
         highScore = PlayerPrefs.GetInt("HighScore", 0);
     }
+
     [SerializeField]
     Transform player;
 
     [SerializeField]
-    Vector2 alienSpawnYRange = new Vector2(-6f, 304f);
+    Vector2 alienSpawnYRange = new Vector2(-6f, 304f); // y값 적 생성 범위
 
     [Header("Panel")]
     public GameObject gameOverPanel;
     public GameObject pausePanel;
 
+
+    [Header("Text")]
     [SerializeField]
     TextMeshProUGUI scoreText;
     [SerializeField]
     TextMeshProUGUI highScoreText;
     
 
-    [Header("Distance Spawn")]
+    [Header("Spawn")]
     [SerializeField]
     float unitsPerSpawn = 10f;     // 이동거리마다 스폰
 
@@ -90,8 +98,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /* 게임오버시 게임오버 패널이 켜지며
-    *  최고 기록보다 기존 기록이 높으면 최고기록 변경
+    /* 
+    * 게임오버시 게임오버 패널이 켜지며
+    * 최고 기록보다 기존 기록이 높으면 최고기록 변경
     */ 
     public void GameOver()
     {
@@ -108,9 +117,10 @@ public class GameManager : MonoBehaviour
         highScoreText.text = $"{highScore}km";
     }
 
-    /* 플레이어가 nextSpawnX (x축 10)거리 이동하면
-    *  플레이어기준 랜덤 x축(20~30)뒤에서 y축 (0~300)에서
-    *  6가지 적들중 한 마리 랜덤 적 스폰
+    /* 
+    * 플레이어가 nextSpawnX (x축 10)거리 이동하면
+    * 플레이어기준 랜덤 x축(20~30)앞, 지정된 y축 범위에서
+    * 6가지 적들중 한 마리 랜덤 적 스폰
     */ 
     void SpawnAlien()
     {
@@ -127,9 +137,10 @@ public class GameManager : MonoBehaviour
         nextSpawnX += unitsPerSpawn;
     }
 
-    /* x축 100마다 난이도 증가
-    *  x축 10마다 스폰시 적 1마리 더 증가
-    *  최대 스폰 마리수 30으로 제한
+    /* 
+    * x축 100마다 난이도 증가
+    * x축 10마다 스폰시 적 1마리 더 증가
+    * 최대 스폰 마리수 30으로 제한
     */ 
     void LevelUp()
     {
@@ -140,8 +151,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    /* ESC게임 일시정지 패널 온오프
-    *  일시정지때 게임 시간 정지
+    /* 
+    * ESC게임 일시정지 패널 온오프
+    * 일시정지때 게임 시간 정지
     */ 
     void Resume()
     {
@@ -156,6 +168,10 @@ public class GameManager : MonoBehaviour
         isPaused = true;
     }
 
+    /* 
+    * 키보드 아무키 인풋 or 마우스 좌클릭
+    * 게임오버 상태이면 리스타트
+    */ 
     void RestartInput()
     {
         if (Keyboard.current.anyKey.wasPressedThisFrame || Mouse.current.leftButton.wasPressedThisFrame)

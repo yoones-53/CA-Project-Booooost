@@ -2,10 +2,15 @@ using UnityEngine;
 
 public class VerticalBackgroundController : MonoBehaviour
 {
+/* 
+* 왼쪽 오른쪽 무한맵을 응용하여 위아래 무한맵 제작
+*/
+
     [SerializeField]
     Transform topBackground;
     [SerializeField]
     Transform bottomBackground;
+
     [SerializeField]
     Camera targetCamera;
 
@@ -35,14 +40,14 @@ public class VerticalBackgroundController : MonoBehaviour
 
     void RepositionIfOutside(Transform movingBackground, SpriteRenderer movingRenderer, SpriteRenderer otherRenderer)
     {
-        // 아래로 완전히 나간 경우 → 위로 이동
+        // 타일이 카메라 아래쪽으로 나가면 윗쪽으로 이어붙이기
         if (movingRenderer.bounds.max.y < GetCameraBottomY())
         {
             float newY = otherRenderer.bounds.max.y + movingRenderer.bounds.extents.y;
             movingBackground.position = new Vector3(movingBackground.position.x, newY, movingBackground.position.z);
         }
 
-        // 위로 완전히 나간 경우 → 아래로 이동
+        // 타일이 카메라 윗쪽으로 나가면 아래쪽으로 이어붙이기
         else if (movingRenderer.bounds.min.y > GetCameraTopY())
         {
             float newY = otherRenderer.bounds.min.y - movingRenderer.bounds.extents.y;

@@ -158,5 +158,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FadeEnemy
   player: {fileID: 0}
-  fadeDistance: 12
-  fadeSpeed: 1
+  fadeDistance: 14
+  fadeSpeed: 4

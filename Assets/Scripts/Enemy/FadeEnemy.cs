@@ -2,40 +2,54 @@ using UnityEngine;
 
 public class FadeEnemy : MonoBehaviour
 {
-    public Transform player; // 플레이어
+    /*
+    * 플레이어의 거리에 따라 투명도가 변하는 외계인
+    * 선형 보간법을 사용하여 투명도가 부드럽게 변화하도록 구현.
+    */
+    
+    public Transform player;
     public float fadeDistance = 13f; // 감지 범위
     public float fadeSpeed = 5f; // 투명화 속도
 
-    private SpriteRenderer spriteRenderer;
-    private float currentAlpha = 1f; // 초기 투명화값
+    SpriteRenderer spriteRenderer;
+    float currentAlpha = 1f; // 초기 투명화값
 
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
-        if (player != null) return;
-        
-        GameObject found = GameObject.FindGameObjectWithTag("Player");
-        player = found.transform;
+        if (player == null)
+        {
+            GameObject found = GameObject.FindGameObjectWithTag("Player");
+            player = found.transform;
+        }
     }
 
     void Update()
     {
-        float distance = Vector2.Distance(transform.position, player.position); // 플레이어와 거리 계산
+        if (player == null) return;
+        // 플레이어 거리 계산
+        float distance = Vector2.Distance(transform.position, player.position);
 
-        float targetAlpha = 1f; // 초기 투명화값
+        ApplyAlpha(distance);
+    }
 
-        if (distance <= fadeDistance) // 플레이어가 가까워지면
+    // 플레이어와 거리를 기반으로 투명
+    void ApplyAlpha(float distance)
+    {
+        float targetAlpha = 1f;
+
+        if (distance <= fadeDistance)
         {
-            float t = distance / fadeDistance; // 거리 비율 계산
-            targetAlpha = Mathf.Lerp(-1f, 1f, t); // 가까울수록 투명
+            // 조금이라도 확인은 가능하도록 0.005f
+            targetAlpha = 0.005f;
         }
-
-         // 부드럽게 변경 하기 위해서 지연 불투명
-        currentAlpha = Mathf.Lerp(currentAlpha, targetAlpha, Time.deltaTime * fadeSpeed);
+        
+        // 선형보간으로 서서히 투명
+        currentAlpha = Mathf.Lerp(currentAlpha, targetAlpha * 2, Time.deltaTime * fadeSpeed);
 
         Color color = spriteRenderer.color;
-        color.a = currentAlpha; // 알파 가져오기
-        spriteRenderer.color = color; // 알파값 변경
+        color.a = currentAlpha;
+        spriteRenderer.color = color;
     }
 }

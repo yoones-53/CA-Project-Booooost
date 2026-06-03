@@ -109,7 +109,6 @@ MonoBehaviour:
   explosionPoint: {fileID: 8151417791303264016}
   detectDistance: 4.2
   explodeDelay: 0.7
-  exploderPrefab: {fileID: 2650195784868546283, guid: 6250b041203850c4cb8116bff7904f08, type: 3}
 --- !u!114 &-8791976770906501730
 MonoBehaviour:
   m_ObjectHideFlags: 0
