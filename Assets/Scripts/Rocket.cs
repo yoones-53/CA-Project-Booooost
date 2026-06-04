@@ -36,13 +36,10 @@ public class Rocket : MonoBehaviour
     void Update()
     {
         if (isGameOver) return;
-        
+
         RocketThrust();
         RocketRotation();
-
-        // 로켓이 y.300을 넘기면 y.10으로 순간이동
-        if (transform.position.y > 300f)
-            transform.position = new Vector3(transform.position.x, 10f, 0f);
+        YLimits();
     }
 
     // 로켓 추진
@@ -113,5 +110,12 @@ public class Rocket : MonoBehaviour
         spriteRenderer.enabled = false;
         rigidBody.simulated = false; // 폭발시 로켓 위치 고정
         GameManager.Instance.GameOver(); // 게임매니저에 게임오버 상태 전송
+    }
+
+    // 로켓이 y.300을 넘기면 y.10으로 순간이동
+    void YLimits()
+    {
+        if (transform.position.y > 300f)
+            transform.position = new Vector3(transform.position.x, 10f, 0f);
     }
 }

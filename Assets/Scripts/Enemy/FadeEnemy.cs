@@ -3,12 +3,12 @@ using UnityEngine;
 public class FadeEnemy : MonoBehaviour
 {
     /*
-    * 플레이어의 거리에 따라 투명도가 변하는 외계인
+    * 플레이어가 detectRange 거리 근처에 있으면 투명으로 변하는 외계인
     * 선형 보간법을 사용하여 투명도가 부드럽게 변화하도록 구현.
     */
     
     public Transform player;
-    public float fadeDistance = 13f; // 감지 범위
+    public float detectRange = 13f; // 감지 범위
     public float fadeSpeed = 5f; // 투명화 속도
 
     SpriteRenderer spriteRenderer;
@@ -39,7 +39,7 @@ public class FadeEnemy : MonoBehaviour
     {
         float targetAlpha = 1f;
 
-        if (distance <= fadeDistance)
+        if (distance <= detectRange)
         {
             // 조금이라도 확인은 가능하도록 0.005f
             targetAlpha = 0.005f;

@@ -3,7 +3,7 @@ public class ShooterEnemy : MonoBehaviour
 {
     /*
     * 총알을 발사하는 외계인
-    * 플레이어가 외계인 사정거리 안에 들어오면 총알을 발사한다.
+    * 플레이어가 detectRange 거리 근처에 있으면 총알을 발사한다.
     */
     public Transform player;
 

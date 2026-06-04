@@ -19,7 +19,7 @@ public class CameraMover : MonoBehaviour
         
         // 카메라 시점 + 플레이어 포지션
         Vector3 desiredPosition = player.position + offset;
-        // 뒤늦게 따라오는 카메라 계산 공식
+        // 선형보간으로 부드러운 움직임 구현
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed * Time.deltaTime);
         transform.position = smoothedPosition;
     }

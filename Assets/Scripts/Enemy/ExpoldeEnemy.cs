@@ -2,14 +2,14 @@ using UnityEngine;
 public class ExplodeEnemy : MonoBehaviour
 {
     /*
-    * 플레이어가 detectDistance 거리 근처에 있으면 폭발 카운트가
+    * 플레이어가 detectRange 거리 근처에 있으면 폭발 카운트가
     * 시작되며 explodeDelay 시간 뒤에 터지는 외계인
     * 터지면 비활성화 후 오브젝트 풀에 저장된다. 
     */
     public Transform player;
     
     public Transform explosionPoint;
-    public float detectDistance = 4.2f;  // 플레이어 감지 거리
+    public float detectRange = 4.2f;  // 플레이어 감지 거리
     public float explodeDelay = 0.7f;    // 감지 후 폭발 시간
 
     bool isCountingDown = false; // 폭발 카운트다운 시작 여부
@@ -55,7 +55,7 @@ public class ExplodeEnemy : MonoBehaviour
         float distance = Vector2.Distance(transform.position, player.position);
 
         // 범위 들어오면 카운트 시작
-        if (!isCountingDown && distance <= detectDistance)
+        if (!isCountingDown && distance <= detectRange)
         {
             isCountingDown = true;
             timer = explodeDelay;
@@ -81,7 +81,7 @@ public class ExplodeEnemy : MonoBehaviour
 
     // 터지면 비활성화 후 오브젝트 풀에 저장
     void Explosion()
-    {
+        {
         GameObject explosionObj = PoolManager.Instance.GetExplosion();
 
         explosionObj.transform.position = explosionPoint.position;
