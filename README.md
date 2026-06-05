@@ -1,5 +1,20 @@
-# Booooost
+# [26-1] 컴퓨터애니메이션 텀 프로젝트
 
+## 🎓 프로젝트 정보
+- 학교: 한신대학교 
+- 학번: 202226032
+- 이름: 윤은성
+- 담당 교수: 성낙준 교수님
+
+## 🛠 개발 환경
+- Unity 6
+- C#
+- Visual Studio Code
+- GitHub
+
+---
+
+# Booooost
 Booooost는 2D 우주 로켓 러닝 게임입니다.
 
 ## 🎮 게임 소개
@@ -34,14 +49,3 @@ Booooost는 2D 우주 로켓 러닝 게임입니다.
 
 ### 👻 Stealth Enemy
 일정 거리 내에서 투명화되는 적입니다.
-
----
-
-## 🛠 개발 환경
-- Unity 6
-- C#
-- Visual Studio Code
-- GitHub
-
-## 👨‍💻 개발자
-- 한신대학교 윤은성
